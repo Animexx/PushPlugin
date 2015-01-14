@@ -92,16 +92,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
-		int defaults;
         SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!app_preferences.getBoolean("com.plugin.gcm.use_defaults", true)) {
-            defaults = 0;
-            if (app_preferences.getBoolean("com.plugin.gcm.use_sound", true)) defaults += Notification.DEFAULT_SOUND;
-            if (app_preferences.getBoolean("com.plugin.gcm.use_vibrate", true)) defaults += Notification.DEFAULT_VIBRATE;
-            if (app_preferences.getBoolean("com.plugin.gcm.use_lights", true)) defaults += Notification.DEFAULT_LIGHTS;
-        } else {
-            defaults = Notification.DEFAULT_ALL;
-        }
+		int defaults = app_preferences.getInt("com.plugin.gcm.defaults", Notification.DEFAULT_ALL);
 
 		if (extras.getString("defaults") != null) {
 			try {

@@ -1,9 +1,13 @@
 package com.plugin.gcm;
 
 import android.app.NotificationManager;
+import android.app.Notification;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import com.google.android.gcm.GCMRegistrar;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -25,6 +29,8 @@ public class PushPlugin extends CordovaPlugin {
 	public static final String REGISTER = "register";
 	public static final String UNREGISTER = "unregister";
 	public static final String EXIT = "exit";
+    public static final String SET_DEFAULTS = "setDefaults";
+    public static final String GET_DEFAULTS = "getDefaults";
 
 	private static CordovaWebView gWebView;
 	private static String gECB;
@@ -84,6 +90,58 @@ public class PushPlugin extends CordovaPlugin {
 			Log.v(TAG, "UNREGISTER");
 			result = true;
 			callbackContext.success();
+
+		} else if (GET_DEFAULTS.equals(action)) {
+
+			Log.v(TAG, "Get Defaults");
+
+			SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(cordova.getActivity());
+			int defaults = app_preferences.getInt("com.plugin.gcm.defaults", Notification.DEFAULT_ALL);
+
+			try {
+				Log.v(TAG, "Defaults: " + defaults);
+				JSONObject obj = new JSONObject();
+				obj.put("defaults", defaults);
+
+				result = true;
+				callbackContext.success(obj);
+
+			} catch (JSONException e) {
+
+				result = false;
+				callbackContext.error(e.getMessage());
+
+			}
+
+		} else if (SET_DEFAULTS.equals(action)) {
+
+			Log.v(TAG, "execute setDefaults: data=" + data.toString());
+
+			try {
+				JSONObject jo = data.getJSONObject(0);
+
+				int defaults = jo.getInt("defaults");
+
+				Log.v(TAG, "new defaults: " + defaults);
+
+				SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(cordova.getActivity());
+				Editor editor = app_preferences.edit();
+				editor.putInt("com.plugin.gcm.defaults", defaults);
+				if (editor.commit()) {
+					Log.e(TAG, "committed successfully");
+					result = true;
+					callbackContext.success();
+				} else {
+					Log.e(TAG, "Could not save preferences");
+					result = false;
+					callbackContext.error("Could not save preferences");
+				}
+			} catch (JSONException e) {
+				Log.e(TAG, "execute: Got JSON Exception " + e.getMessage());
+				result = false;
+				callbackContext.error(e.getMessage());
+			}
+
 		} else {
 			result = false;
 			Log.e(TAG, "Invalid action : " + action);
