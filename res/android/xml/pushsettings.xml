@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="@string/gcm_settings_title">
+
+        <CheckBoxPreference android:title="@string/gcm_settings_sound" android:summaryOn="@string/gcm_settings_sound_on"
+                            android:summaryOff="@string/gcm_settings_sound_off"
+                            android:key="com.plugin.gcm.sound" android:defaultValue="true"/>
+
+        <CheckBoxPreference android:title="@string/gcm_settings_vibration" android:summaryOn="@string/gcm_settings_vibration_on"
+                            android:summaryOff="@string/gcm_settings_vibration_off"
+                            android:key="com.plugin.gcm.vibration" android:defaultValue="true"/>
+
+        <CheckBoxPreference android:title="@string/gcm_settings_light" android:summaryOn="@string/gcm_settings_light_on"
+                            android:summaryOff="@string/gcm_settings_light_off"
+                            android:key="com.plugin.gcm.light" android:defaultValue="true"/>
+
+
+        <RingtonePreference
+                android:name="Ringtone Preference"
+                android:summary="@string/gcm_settings_ringtone_summary"
+                android:title="@string/gcm_settings_ringtone_title"
+                android:key="com.plugin.gcm.ringtone" android:ringtoneType="notification" android:showDefault="true" android:showSilent="true"
+                android:defaultValue="DEFAULT_NOTIFICATION_URI"/>
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

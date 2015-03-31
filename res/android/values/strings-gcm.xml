@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="gcm_settings_title">Notifications</string>
+    <string name="gcm_settings_light">Light</string>
+    <string name="gcm_settings_light_on">Light is switched on</string>
+    <string name="gcm_settings_light_off">Light is switched off</string>
+    <string name="gcm_settings_vibration">Vibration</string>
+    <string name="gcm_settings_vibration_on">Vibration is switched on</string>
+    <string name="gcm_settings_vibration_off">Vibration is switched off</string>
+    <string name="gcm_settings_sound">Sound</string>
+    <string name="gcm_settings_sound_on">Sound is switched on</string>
+    <string name="gcm_settings_sound_off">Sound is switched off</string>
+    <string name="gcm_settings_ringtone_title">Ring tone</string>
+    <string name="gcm_settings_ringtone_summary">Choose a ring tone</string>
+</resources>

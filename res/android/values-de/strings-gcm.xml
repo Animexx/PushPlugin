@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="gcm_settings_title">Benachrichtigung</string>
+    <string name="gcm_settings_light">Licht</string>
+    <string name="gcm_settings_light_on">Licht bei Benachrichtigungen ist aktiviert</string>
+    <string name="gcm_settings_light_off">Licht bei Benachrichtigungen ist deaktiviert</string>
+    <string name="gcm_settings_vibration">Vibration</string>
+    <string name="gcm_settings_vibration_on">Vibration bei Benachrichtigungen ist aktiviert</string>
+    <string name="gcm_settings_vibration_off">Vibration bei Benachrichtigungen ist deaktiviert</string>
+    <string name="gcm_settings_sound">Ton</string>
+    <string name="gcm_settings_sound_on">Benachrichtigungston bei Benachrichtigungen ist aktiviert</string>
+    <string name="gcm_settings_sound_off">Benachrichtigungston bei Benachrichtigungen ist deaktiviert</string>
+    <string name="gcm_settings_ringtone_title">Benachrichtigungston</string>
+    <string name="gcm_settings_ringtone_summary">Wähle einen Benachrichtigungston</string>
+</resources>
