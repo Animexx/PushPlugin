@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="Benachrichtigung">
+
+        <CheckBoxPreference android:title="Ton" android:summaryOn="Benachrichtigungston bei Benachrichtigungen ist aktiviert"
+                            android:summaryOff="Benachrichtigungston bei Benachrichtigungen ist deaktiviert."
+                            android:key="com.plugin.gcm.sound" android:defaultValue="true"/>
+
+        <CheckBoxPreference android:title="Vibration" android:summaryOn="Vibration bei Benachrichtigungen ist aktiviert"
+                            android:summaryOff="Vibration bei Benachrichtigungen ist deaktiviert."
+                            android:key="com.plugin.gcm.vibration" android:defaultValue="true"/>
+
+        <CheckBoxPreference android:title="Licht" android:summaryOn="Licht bei Benachrichtigungen ist aktiviert"
+                            android:summaryOff="Licht bei Benachrichtigungen ist deaktiviert."
+                            android:key="com.plugin.gcm.light" android:defaultValue="true"/>
+
+
+        <RingtonePreference
+                android:name="Ringtone Preference"
+                android:summary="Wähle einen Benachrichtigungston"
+                android:title="Benachrichtigungston"
+                android:key="com.plugin.gcm.ringtone" android:ringtoneType="notification" android:showDefault="true" android:showSilent="true"
+                android:defaultValue="DEFAULT_NOTIFICATION_URI"/>
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

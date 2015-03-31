@@ -3,6 +3,7 @@ package com.plugin.gcm;
 import android.app.NotificationManager;
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.preference.PreferenceManager;
@@ -29,8 +30,10 @@ public class PushPlugin extends CordovaPlugin {
 	public static final String REGISTER = "register";
 	public static final String UNREGISTER = "unregister";
 	public static final String EXIT = "exit";
-    public static final String SET_DEFAULTS = "setDefaults";
-    public static final String GET_DEFAULTS = "getDefaults";
+    public static final String GET_PUSH_SETTINGS = "getPushSettings";
+    public static final String SHOW_PUSH_SETTINGS = "showPushSettings";
+
+    private static final int RESULT_PUSH_SETTINGS = 1;
 
 	private static CordovaWebView gWebView;
 	private static String gECB;
@@ -91,57 +94,40 @@ public class PushPlugin extends CordovaPlugin {
 			result = true;
 			callbackContext.success();
 
-		} else if (GET_DEFAULTS.equals(action)) {
+		} else if (GET_PUSH_SETTINGS.equals(action)) {
 
-			Log.v(TAG, "Get Defaults");
+                Log.v(TAG, "Get Push Settings");
 
-			SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(cordova.getActivity());
-			int defaults = app_preferences.getInt("com.plugin.gcm.defaults", Notification.DEFAULT_ALL);
+                SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(cordova.getActivity());
+                boolean vibration = app_preferences.getBoolean("com.plugin.gcm.vibration", true);
+                boolean sound = app_preferences.getBoolean("com.plugin.gcm.sound", true);
+                boolean light = app_preferences.getBoolean("com.plugin.gcm.light", true);
+                String ringtonePath = app_preferences.getString("com.plugin.gcm.ringtone", "defValue");
+                Log.v(TAG, ringtonePath);
 
-			try {
-				Log.v(TAG, "Defaults: " + defaults);
-				JSONObject obj = new JSONObject();
-				obj.put("defaults", defaults);
+                try {
+                        JSONObject obj = new JSONObject();
+                        obj.put("vibration", vibration);
+                        obj.put("sound", sound);
+                        obj.put("light", light);
+                        obj.put("ringtone", ringtonePath);
 
-				result = true;
-				callbackContext.success(obj);
+                        result = true;
+                        callbackContext.success(obj);
 
-			} catch (JSONException e) {
+                } catch (JSONException e) {
 
-				result = false;
-				callbackContext.error(e.getMessage());
+                        result = false;
+                        callbackContext.error(e.getMessage());
 
-			}
+                }
 
-		} else if (SET_DEFAULTS.equals(action)) {
+                } else if (SHOW_PUSH_SETTINGS.equals(action)) {
+            Log.v(TAG, "execute ringtone Chooser");
+            Intent i = new Intent(this.cordova.getActivity(), PushSettingsActivity.class);
+            this.cordova.getActivity().startActivityForResult(i, RESULT_PUSH_SETTINGS);
 
-			Log.v(TAG, "execute setDefaults: data=" + data.toString());
-
-			try {
-				JSONObject jo = data.getJSONObject(0);
-
-				int defaults = jo.getInt("defaults");
-
-				Log.v(TAG, "new defaults: " + defaults);
-
-				SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(cordova.getActivity());
-				Editor editor = app_preferences.edit();
-				editor.putInt("com.plugin.gcm.defaults", defaults);
-				if (editor.commit()) {
-					Log.e(TAG, "committed successfully");
-					result = true;
-					callbackContext.success();
-				} else {
-					Log.e(TAG, "Could not save preferences");
-					result = false;
-					callbackContext.error("Could not save preferences");
-				}
-			} catch (JSONException e) {
-				Log.e(TAG, "execute: Got JSON Exception " + e.getMessage());
-				result = false;
-				callbackContext.error(e.getMessage());
-			}
-
+            callbackContext.success();
 		} else {
 			result = false;
 			Log.e(TAG, "Invalid action : " + action);

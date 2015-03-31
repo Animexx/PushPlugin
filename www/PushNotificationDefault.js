@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 
 /**
@@ -27,7 +27,7 @@
  * @param code
  * @param message
  */
-var PushNotificationDefault = function(code, message) {
+var PushNotificationDefault = function (code, message) {
     this.code = code || null;
     this.message = message || '';
 };

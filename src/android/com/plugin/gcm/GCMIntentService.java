@@ -3,6 +3,8 @@ package com.plugin.gcm;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.net.Uri;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -93,13 +96,16 @@ public class GCMIntentService extends GCMBaseIntentService {
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
         SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		int defaults = app_preferences.getInt("com.plugin.gcm.defaults", Notification.DEFAULT_ALL);
+        boolean vibration = app_preferences.getBoolean("com.plugin.gcm.vibration", true);
+        boolean sound = app_preferences.getBoolean("com.plugin.gcm.sound", true);
+        boolean light = app_preferences.getBoolean("com.plugin.gcm.light", true);
+        String ringtonePath = app_preferences.getString("com.plugin.gcm.ringtone", "defValue");
+        int defaults = 0;
+        if (vibration) defaults = defaults | Notification.DEFAULT_VIBRATE;
+        // if (sound) defaults = defaults | Notification.DEFAULT_SOUND;
+        if (light) defaults = defaults | Notification.DEFAULT_LIGHTS;
+        Log.v(TAG, new Integer(defaults).toString());
 
-		if (extras.getString("defaults") != null) {
-			try {
-				defaults = Integer.parseInt(extras.getString("defaults"));
-			} catch (NumberFormatException e) {}
-		}
 		
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(context)
@@ -110,6 +116,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 				.setTicker(extras.getString("title"))
 				.setContentIntent(contentIntent)
 				.setAutoCancel(true);
+
+        if (!ringtonePath.equals("") && sound) {
+            Uri uri = Uri.parse(ringtonePath);
+            Log.v(TAG, "Playing Sound: " + uri.toString());
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uri);
+            r.play();
+
+            mBuilder.setSound(null);
+        }
 
 		String message = extras.getString("message");
 		if (message != null) {

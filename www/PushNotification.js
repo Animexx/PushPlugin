@@ -1,12 +1,15 @@
-var PushNotification = function() {
+var PushNotification = function () {
 };
 
 
 // Call this to register for push notifications. Content of [options] depends on whether we are working with APNS (iOS) or GCM (Android)
-PushNotification.prototype.register = function(successCallback, errorCallback, options) {
-    if (errorCallback == null) { errorCallback = function() {}}
+PushNotification.prototype.register = function (successCallback, errorCallback, options) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
 
-    if (typeof errorCallback != "function")  {
+    if (typeof errorCallback != "function") {
         console.log("PushNotification.register failure: failure parameter not a function");
         return
     }
@@ -20,10 +23,13 @@ PushNotification.prototype.register = function(successCallback, errorCallback, o
 };
 
 // Call this to unregister for push notifications
-PushNotification.prototype.unregister = function(successCallback, errorCallback, options) {
-    if (errorCallback == null) { errorCallback = function() {}}
+PushNotification.prototype.unregister = function (successCallback, errorCallback, options) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
 
-    if (typeof errorCallback != "function")  {
+    if (typeof errorCallback != "function") {
         console.log("PushNotification.unregister failure: failure parameter not a function");
         return
     }
@@ -33,25 +39,32 @@ PushNotification.prototype.unregister = function(successCallback, errorCallback,
         return
     }
 
-     cordova.exec(successCallback, errorCallback, "PushPlugin", "unregister", [options]);
+    cordova.exec(successCallback, errorCallback, "PushPlugin", "unregister", [options]);
 };
 
-    // Call this if you want to show toast notification on WP8
-    PushNotification.prototype.showToastNotification = function (successCallback, errorCallback, options) {
-        if (errorCallback == null) { errorCallback = function () { } }
-
-        if (typeof errorCallback != "function") {
-            console.log("PushNotification.register failure: failure parameter not a function");
-            return
+// Call this if you want to show toast notification on WP8
+PushNotification.prototype.showToastNotification = function (successCallback, errorCallback, options) {
+    if (errorCallback == null) {
+        errorCallback = function () {
         }
-
-        cordova.exec(successCallback, errorCallback, "PushPlugin", "showToastNotification", [options]);
     }
-// Call this to set the application icon badge
-PushNotification.prototype.setApplicationIconBadgeNumber = function(successCallback, errorCallback, badge) {
-    if (errorCallback == null) { errorCallback = function() {}}
 
-    if (typeof errorCallback != "function")  {
+    if (typeof errorCallback != "function") {
+        console.log("PushNotification.register failure: failure parameter not a function");
+        return
+    }
+
+    cordova.exec(successCallback, errorCallback, "PushPlugin", "showToastNotification", [options]);
+};
+
+// Call this to set the application icon badge
+PushNotification.prototype.setApplicationIconBadgeNumber = function (successCallback, errorCallback, badge) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
+
+    if (typeof errorCallback != "function") {
         console.log("PushNotification.setApplicationIconBadgeNumber failure: failure parameter not a function");
         return
     }
@@ -64,41 +77,53 @@ PushNotification.prototype.setApplicationIconBadgeNumber = function(successCallb
     cordova.exec(successCallback, errorCallback, "PushPlugin", "setApplicationIconBadgeNumber", [{badge: badge}]);
 };
 
-PushNotification.prototype.setDefaults = function(successCallback, errorCallback, defaults) {
-    if (errorCallback == null) { errorCallback = function() {}}
+PushNotification.prototype.showPushSettings = function (successCallback, errorCallback) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
 
-    if (typeof errorCallback != "function")  {
-        console.log("PushNotification.setDefaults failure: failure parameter not a function");
+    if (successCallback == null) {
+        successCallback = function () {
+        }
+    }
+
+    if (typeof errorCallback != "function") {
+        console.log("PushNotification.showPushSettings failure: failure parameter not a function");
         return
     }
 
     if (typeof successCallback != "function") {
-        console.log("PushNotification.setDefaults failure: success callback parameter must be a function");
+        console.log("PushNotification.showPushSettings failure: success callback parameter must be a function");
         return
     }
 
-    cordova.exec(successCallback, errorCallback, "PushPlugin", "setDefaults", [{defaults: defaults}]);
+    cordova.exec(successCallback, errorCallback, "PushPlugin", "showPushSettings", []);
 };
 
-PushNotification.prototype.getDefaults = function(successCallback, errorCallback) {
-    if (errorCallback == null) { errorCallback = function() {}}
 
-    if (typeof errorCallback != "function")  {
-        console.log("PushNotification.setDefaults failure: failure parameter not a function");
+PushNotification.prototype.getPushSettings = function (successCallback, errorCallback) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
+
+    if (typeof errorCallback != "function") {
+        console.log("PushNotification.getPushSettings failure: failure parameter not a function");
         return
     }
 
     if (typeof successCallback != "function") {
-        console.log("PushNotification.setDefaults failure: success callback parameter must be a function");
+        console.log("PushNotification.getPushSettings failure: success callback parameter must be a function");
         return
     }
 
-    cordova.exec(successCallback, errorCallback, "PushPlugin", "getDefaults", []);
+    cordova.exec(successCallback, errorCallback, "PushPlugin", "getPushSettings", []);
 };
 
 //-------------------------------------------------------------------
 
-if(!window.plugins) {
+if (!window.plugins) {
     window.plugins = {};
 }
 if (!window.plugins.pushNotification) {
@@ -106,5 +131,5 @@ if (!window.plugins.pushNotification) {
 }
 
 if (typeof module != 'undefined' && module.exports) {
-  module.exports = PushNotification;
+    module.exports = PushNotification;
 }
