@@ -1,5 +1,9 @@
 # Cordova Push Notifications Plugin for Android, iOS, WP8, Windows8, BlackBerry 10 and Amazon Fire OS
 
+## About this branch
+
+This branch adds a native configuration screen to android-apps that allow users to select a system notification sound for push notifications. See [my blog post](https://www.hoessl.eu/2015/04/choosing-androids-system-sounds-for-cordova-push-notifications-using-native-configuration-screens/) for details.
+
 ## DESCRIPTION
 
 This plugin is for use with [Cordova](http://incubator.apache.org/cordova/), and allows your application to receive push notifications on Amazon Fire OS, Android, iOS, Windows Phone and Windows8 devices.
